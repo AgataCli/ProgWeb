@@ -1,0 +1,13 @@
+.conteiner{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+table {
+    margin: 10px 11px 11px 10px;
+}
+
+.linha{
+    text-align: center;
+}
