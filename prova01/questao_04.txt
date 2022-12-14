@@ -1,0 +1,13 @@
+QUESTÃO 4:
+
+
+
+É quando o interpretador coloca no topo do código as declarações de variáveis e de funções. Assim, a leitura do código não é parada se as declarações estiverem após o uso. Exemplo:
+
+console.log(multiplicar(2,5));
+
+function multiplicar(a,b){
+  return a*b;
+}
+
+

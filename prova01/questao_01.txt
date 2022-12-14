@@ -1,0 +1,10 @@
+QUESTÃO 1:
+
+
+ERROS:
+
+1. Na linha 18 a tag <strong> não foi fechada;
+2. Linha 24 e 33, a tag usada deveria ser <script></script>;
+3. Linha 29, em vez de "that.nome" o correto é "this.nome";
+4. Após a linha 14, deveria começar o <body>.
+

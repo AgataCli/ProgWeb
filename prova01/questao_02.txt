@@ -1,0 +1,7 @@
+QUESTÃO 2:
+
+SELETORES:
+
+1. span;
+2. span.cl1;
+3. [title="css"]
