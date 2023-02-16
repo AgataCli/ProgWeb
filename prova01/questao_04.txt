@@ -1,3 +1,7 @@
+Definição de hoisting pacialmente correta. As declarações são colocados no topo de escopo, não do código como um todo.
+Exemplo de código correto.
+Nota: 1.6
+
 QUESTÃO 4:
 
 
