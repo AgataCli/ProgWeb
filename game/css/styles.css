@@ -1,0 +1,59 @@
+* {
+  font-family: 'Press Start 2P', cursive;
+  font-family: 'Roboto', sans-serif;
+}
+
+#space {
+  border: 1px solid black;
+  background-image: url("../assets/Background/starBackground.png");
+  position: relative;
+  overflow: hidden;
+}
+
+#ship {
+  position: absolute;
+  z-index: 3;
+}
+
+#ship-life {
+  position: absolute;
+  right: 0;
+  margin-top: 20px;
+  margin-right: 140px;
+  z-index: 2;
+}
+
+#user-points {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  font-size: 30px;
+  color: white;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.enemy-ship {
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-UFO {
+  position: absolute;
+  z-index: 1;
+}
+
+.gun-ship {
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-big {
+  position: absolute;
+  z-index: 0;
+}
+
+.enemy-small {
+  position: absolute;
+  z-index: 0;
+}
