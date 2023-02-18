@@ -149,6 +149,15 @@
         }
       }
     }
+
+    impactDestroy(verifica) {
+      if (verifica) {
+        if (!this.destroyed) {
+          space.element.removeChild(this.element);
+          this.destroyed = true;
+        }
+      }
+    }
   }
 
   class EnemyShip {
@@ -295,6 +304,7 @@
         enemies.forEach((x)=>{
           if(checkCollision(e,x)){
             x.element.style.visibility = "hidden";
+            e.impactDestroy(checkCollision(e,x));
           }
         });
       });
@@ -351,22 +361,3 @@
 
   init();
 })();
-
-/*
-
-setInterval(() => {
-  // laço para verificar colisão entre as armas e os inimigos
-  for (let i = 0; i < guns.length; i++) {
-    for (let j = 0; j < enemies.length; j++) {
-      if (checkCollision(guns[i], enemies[j])) {
-        // colisão detectada
-        // faça o que for necessário aqui
-      }
-    }
-  }
-}, 5); // chama a função a cada 5 milissegundos
-
-
-*/
-
-
