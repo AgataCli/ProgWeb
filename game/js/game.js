@@ -7,16 +7,18 @@
   let TIME = 0;
   let ACEL = 1;
   let duracao = 5000;
-  
+  let rodar;
+
   const PROB_ENEMY_SHIP = 0.6;
   const PROB_ENEMY_UFO = 0.2;
-  const PROB_ENEMY_BIG = 0.4;
-  const PROB_ENEMY_SMALL = 0.13;
+  const PROB_ENEMY_METEOR_BIG = 0.4;
+  const PROB_ENEMY_METEOR_SMALL = 0.13;
 
   let space, ship, life, gun, points;
   let enemies = [];
   let guns = [];
   let start = 0;
+  let over = 0;
 
   function init() {
     space = new Space();
@@ -26,15 +28,15 @@
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "Space" && start === 0) {
-        window.setInterval(run, parseInt(VEL / FPS));
+        rodar = window.setInterval(run, parseInt(VEL / FPS));
         start = start + 1;
       }
     });
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === 'p' || e.key === 'P') PAUSE = !PAUSE;
-    });
   }
+
+  window.addEventListener("keydown", (e) => {
+      if (e.key === 'p' || e.key === 'P' && over != 1) PAUSE = !PAUSE;
+    });
 
   window.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") ship.mudaDirecao(-1);
@@ -87,10 +89,10 @@
     move() {
       if (this.direcao === 0)
         this.element.style.left = `${parseInt(this.element.style.left) - 2}px`;
-      if (parseInt(this.element.style.left) < 0) this.element.style.left = `${TAMX}px`;
+      if (parseInt(this.element.style.left) < 0) this.element.style.left = `${TAMX - 98}px`;
       if (this.direcao === 2)
         this.element.style.left = `${parseInt(this.element.style.left) + 2}px`;
-      if (parseInt(this.element.style.left) > TAMX) this.element.style.left = '0px';
+      if (parseInt(this.element.style.left) + 98 > TAMX) this.element.style.left = '0px';
       space.move();
     }
   }
@@ -99,6 +101,7 @@
     constructor() {
       this.element = document.createElement("div");
       this.element.setAttribute('id', 'ship-life');
+      this.vidas = 3;
       for (let i = 0; i < 3; i++) {
         let iconLife = document.createElement("img");
         iconLife.src = 'assets/life.png';
@@ -106,6 +109,12 @@
         this.element.appendChild(iconLife);
       }
       space.element.appendChild(this.element);
+    }
+
+    removeVida() {
+      this.vidas = this.vidas - 1;
+      console.log(this.vidas);
+      this.element.removeChild(document.getElementsByClassName('icon-life')[0]);
     }
   }
 
@@ -191,7 +200,7 @@
     }
   }
 
-  class EnemyUFO {
+  class EnemyUfo {
     constructor() {
       this.element = document.createElement("img");
       this.element.className = "enemy-UFO";
@@ -276,11 +285,11 @@
       }
     }));
   }
-/*
-  function shipDamage() {
-    ship.element.src = "assets/playerDamaged.png";
-  }
-  */
+  /*
+    function shipDamage() {
+      ship.element.src = "assets/playerDamaged.png";
+    }
+    */
 
   function checkCollisionShip() {
     enemies.forEach((e) => {
@@ -289,11 +298,19 @@
       let collision = (rect1.top < rect2.bottom && rect1.bottom > rect2.top && rect1.left < rect2.right && rect1.right > rect2.left);
       if (collision == true && e.element.style.visibility != "hidden") {
         e.element.style.visibility = "hidden";
-        
+
+        if (life.vidas > 0) {
+          life.removeVida();
+        } else {
+          life.vidas = -1;
+        }
         //let timeoutId = setTimeout(shipDamage, 0);
         //setTimeout(function() {
         //  clearTimeout(timeoutId);
         // }, 5000);
+        if (life.vidas < 0) {
+          gameOver();
+        }
       }
     });
   }
@@ -304,18 +321,64 @@
       enemies.push(new EnemyShip());
     }
     if (random_enemy <= PROB_ENEMY_UFO) {
-      enemies.push(new EnemyUFO());
+      enemies.push(new EnemyUfo());
     }
-    if (random_enemy <= PROB_ENEMY_BIG) {
+    if (random_enemy <= PROB_ENEMY_METEOR_BIG) {
       enemies.push(new EnemyMeteorBig());
     }
-    if (random_enemy <= PROB_ENEMY_SMALL) {
+    if (random_enemy <= PROB_ENEMY_METEOR_SMALL) {
       enemies.push(new EnemyMeteorSmall());
     }
   }
 
+  function gameOver() {
+    console.log("FIM");
+    let menuGameOver = document.createElement("div");
+    menuGameOver.setAttribute('id', 'fim-de-jogo');
+
+    let textMenu = document.createElement("p");
+
+    let botaoReinicio = document.createElement("div");
+    botaoReinicio.setAttribute('id', 'recomecar');
+
+    textMenu.innerHTML = "Que pena! Você perdeu";
+    botaoReinicio.innerHTML = "Jogar de novo";
+
+    enemies.forEach((e) => {
+      space.element.removeChild(e.element);
+    });
+
+    guns.forEach((e) => {
+      space.element.removeChild(e.element);
+    });
+
+    enemies = [];
+    guns = [];
+
+    menuGameOver.appendChild(textMenu);
+    menuGameOver.appendChild(botaoReinicio);
+
+    space.element.appendChild(menuGameOver);
+
+    over = 1;
+
+    botaoReinicio.addEventListener('click',() => {
+      space.element.removeChild(menuGameOver);
+      restart();
+    });
+
+  }
+
+  function restart(){
+    start = 0;
+    over = 0;
+    points.element.innerHTML = '';
+    clearInterval(rodar);
+    init();
+  }
+
   function run() {
-    if (!PAUSE) {
+    if (!PAUSE && !over) {
       checkCollisionShip();
       checkCollision();
 
