@@ -1,0 +1,87 @@
+* {
+  font-family: 'Press Start 2P', monospace;
+}
+
+#space {
+  border: 2px dashed purple;
+  background-image: url("../img/Background/starBackground.png");
+  position: relative;
+  overflow: hidden;
+}
+
+#ship {
+  position: absolute;
+  z-index: 3;
+}
+
+#ship-life {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  margin-top: 0px;
+  margin-right: 145px;
+  z-index: 2;
+}
+
+#user-points {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  z-index: 2;
+  font-size: 22px;
+  color: white;
+  margin-top: 0px;
+  margin-right: 10px;
+}
+
+#start-menu,#pause-menu{
+  visibility: hidden;
+}
+
+.enemy-ship {
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-UFO {
+  position: absolute;
+  z-index: 1;
+}
+
+.gun-ship {
+  position: absolute;
+  z-index: 1;
+}
+
+.enemy-big {
+  position: absolute;
+  z-index: 0;
+}
+
+.enemy-small {
+  position: absolute;
+  z-index: 0;
+}
+
+#fim-de-jogo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../img/Background/starBackground.png");
+  z-index: 4;
+}
+
+#fim-de-jogo p {
+  color:white;
+}
+
+#recomecar {
+  text-align: center;
+  padding: 20px;
+  background-color: purple;
+  
+}
