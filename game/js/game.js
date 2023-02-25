@@ -39,8 +39,8 @@
     });
 
   window.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") ship.mudaDirecao(-1);
-    else if (e.key === "ArrowRight") ship.mudaDirecao(+1);
+    if ((e.key === "ArrowLeft")) ship.mudaDirecao(-1);
+    else if ((e.key === "ArrowRight")) ship.mudaDirecao(+1);
   });
 
   window.addEventListener("keypress", (e) => {
@@ -75,15 +75,22 @@
         "assets/player.png",
         "assets/playerRight.png",
       ];
+      this.AssetsDirecoesDamage = [
+        "assets/playerDamaged.png",
+        "assets/playerDamaged.png",
+        "assets/playerDamaged.png",
+      ];
       this.direcao = 1;
       this.element.src = this.AssetsDirecoes[this.direcao];
       this.element.style.bottom = "20px";
       this.element.style.left = `${parseInt(TAMX / 2) - 50}px`;
+      this.damage = false;
     }
     mudaDirecao(giro) {
       if (this.direcao + giro >= 0 && this.direcao + giro <= 2) {
         this.direcao += giro;
-        this.element.src = this.AssetsDirecoes[this.direcao];
+        if(!this.damage) this.element.src = this.AssetsDirecoes[this.direcao];
+        else this.element.src = this.AssetsDirecoesDamage[this.direcao];
       }
     }
     move() {
@@ -147,6 +154,7 @@
       this.element.src = "assets/laserRed.png";
       this.element.style.bottom = "60px";
       this.element.style.left = `${parseInt(ship.element.style.left) + 50}px`;
+      
       space.element.appendChild(this.element);
 
 
@@ -285,11 +293,10 @@
       }
     }));
   }
-  /*
-    function shipDamage() {
-      ship.element.src = "assets/playerDamaged.png";
-    }
-    */
+
+  function shipDamage() {
+    ship.element.src = "assets/playerDamaged.png";
+  }
 
   function checkCollisionShip() {
     enemies.forEach((e) => {
@@ -301,13 +308,15 @@
 
         if (life.vidas > 0) {
           life.removeVida();
+          ship.damage = true;
         } else {
           life.vidas = -1;
         }
-        //let timeoutId = setTimeout(shipDamage, 0);
-        //setTimeout(function() {
-        //  clearTimeout(timeoutId);
-        // }, 5000);
+        let timeoutId = setTimeout(shipDamage, 0);
+        setTimeout(function() {
+          clearTimeout(timeoutId);
+          ship.damage = false;
+         }, 5000);
         if (life.vidas < 0) {
           gameOver();
         }
@@ -335,9 +344,7 @@
     console.log("FIM");
     let menuGameOver = document.createElement("div");
     menuGameOver.setAttribute('id', 'fim-de-jogo');
-
     let textMenu = document.createElement("p");
-
     let botaoReinicio = document.createElement("div");
     botaoReinicio.setAttribute('id', 'recomecar');
 
@@ -366,7 +373,6 @@
       space.element.removeChild(menuGameOver);
       restart();
     });
-
   }
 
   function restart(){
@@ -421,5 +427,3 @@
 
   init();
 })();
-
-
